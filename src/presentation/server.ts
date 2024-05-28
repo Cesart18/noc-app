@@ -1,3 +1,4 @@
+import { CheckService } from "../domain/use-cases/checks/check-service";
 import { CronService } from "./cron/cron-service";
 
 
@@ -9,8 +10,12 @@ import { CronService } from "./cron/cron-service";
             CronService.createJob(
                 '*/5 * * * * *',
                 () => {
-                    const date = new Date();
-                    console.log('Running job every 5 seconds', date);
+                    const url = 'https://google.com';
+                    new CheckService(
+                        () => console.log(`${url} is ok`),
+                        (error) => console.log(error)
+                    ).execute(url);
+
                 }
             );
 
